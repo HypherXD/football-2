@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO-STRIKE | Advanced Football Probability & Analytics Engine</title>
+    <title>Football Probs | Advanced Football Probability & Analytics Engine</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
@@ -66,6 +66,22 @@
         .live-indicator {
             animation: subtle-pulse 2s infinite ease-in-out;
         }
+
+        /* Transition effect for tab switching */
+        .tab-content {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .tab-content.hidden {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .tab-content.fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
     </style>
 </head>
 <body class="min-h-screen pb-16">
@@ -79,7 +95,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
-                        PRO-STRIKE <span class="text-xs bg-brand-500/10 text-brand-500 font-bold px-2 py-0.5 rounded border border-brand-500/20 uppercase tracking-widest">v2.1</span>
+                        Football Probs <span class="text-xs bg-brand-500/10 text-brand-500 font-bold px-2 py-0.5 rounded border border-brand-500/20 uppercase tracking-widest">v2.1</span>
                     </h1>
                     <p class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Predictive Football Analytics & Poisson Engine</p>
                 </div>
@@ -154,7 +170,7 @@
         <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
         <!-- PREDICTOR ENGINE TAB -->
-        <section id="tab-predictor" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <section id="tab-predictor" class="tab-content grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             <!-- LEFT COLUMN: Parameter Input Controls (5 Cols) -->
             <div class="lg:col-span-5 flex flex-col gap-6">
@@ -175,7 +191,6 @@
                         <option value="PL">Premier League</option>
                         <option value="CL">Champions League</option>
                         <option value="SA">Serie A</option>
-                        <option value="WC">World Cup</option>
                     </select>
 
                     <div id="preset-buttons-container" class="grid grid-cols-2 gap-2">
@@ -359,7 +374,7 @@
                     <!-- Match Heading -->
                     <div class="flex items-center justify-between px-2 sm:px-6 py-4 bg-slate-950/40 rounded-2xl border border-slate-800/80 mb-6">
                         <div class="flex flex-col items-center flex-1 max-w-[40%] text-center">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-500/20 to-emerald-400/10 border border-emerald-500/30 flex items-center justify-center font-black text-emerald-400 text-lg shadow-inner" id="homeLogoInitials">RM</div>
+                            <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Real Madrid" alt="Home" class="w-12 h-12 rounded-full border border-emerald-500/30 shadow-inner bg-slate-950" id="homeLogo" onerror="this.onerror=null; this.src='https://placehold.co/48x48/1e293b/94a3b8?text=H';">
                             <span id="homeNameHeading" class="font-extrabold text-sm sm:text-base text-white mt-2 truncate max-w-full">Real Madrid</span>
                             <span class="text-[10px] font-mono text-slate-400 uppercase mt-0.5">Home Team</span>
                         </div>
@@ -368,7 +383,7 @@
                             <span class="text-lg font-black font-mono text-slate-200 mt-2" id="sumExpectedGoals">3.2 xG</span>
                         </div>
                         <div class="flex flex-col items-center flex-1 max-w-[40%] text-center">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-500/20 to-cyan-400/10 border border-cyan-500/30 flex items-center justify-center font-black text-cyan-400 text-lg shadow-inner" id="awayLogoInitials">MC</div>
+                            <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Man City" alt="Away" class="w-12 h-12 rounded-full border border-cyan-500/30 shadow-inner bg-slate-950" id="awayLogo" onerror="this.onerror=null; this.src='https://placehold.co/48x48/1e293b/94a3b8?text=A';">
                             <span id="awayNameHeading" class="font-extrabold text-sm sm:text-base text-white mt-2 truncate max-w-full">Man City</span>
                             <span class="text-[10px] font-mono text-slate-400 uppercase mt-0.5">Away Team</span>
                         </div>
@@ -427,19 +442,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     
                     <!-- Top Predicted Scorelines -->
-                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm">
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm transition-all duration-300 hover:border-brand-500/30 hover:shadow-lg hover:shadow-brand-500/5">
                         <h3 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
                             <i data-lucide="grid" class="text-brand-400 w-4.5 h-4.5"></i>
                             Most Probable Exact Scorelines
                         </h3>
 
-                        <div id="scoreline-container" class="space-y-3">
+                        <div id="scoreline-container" class="grid grid-cols-1 gap-2">
                             <!-- Dynamic Content Inserted Here -->
                         </div>
                     </div>
 
                     <!-- Major Goals Markets (Over/Under & BTTS) -->
-                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between">
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:border-brand-500/30 hover:shadow-lg hover:shadow-brand-500/5">
                         <div>
                             <h3 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
                                 <i data-lucide="trending-up" class="text-brand-400 w-4.5 h-4.5"></i>
@@ -512,6 +527,11 @@
                             <p class="text-xs text-slate-400 leading-relaxed">
                                 Below are the calculated goal expectations for each team prior to applying environmental and head-to-head adjustments. Use this to gauge baseline scoring efficiency.
                             </p>
+                            <!-- New Managerial Summary Section -->
+                            <div id="managerial-summary" class="bg-brand-500/5 p-3 rounded-xl border border-brand-500/10 mt-2">
+                                <h4 class="text-[10px] font-bold text-brand-400 uppercase tracking-widest mb-1">Engine Summary</h4>
+                                <p id="summary-text" class="text-xs text-slate-300 italic">Analyzing tactical metrics...</p>
+                            </div>
                             <div class="space-y-2">
                                 <div class="bg-slate-950/60 p-2.5 rounded-xl border border-slate-850 flex justify-between items-center text-xs">
                                     <span class="text-emerald-400 font-semibold flex items-center gap-1">
@@ -566,7 +586,7 @@
         </section>
 
         <!-- SAVED MATCHES TAB -->
-        <section id="tab-saved" class="hidden">
+        <section id="tab-saved" class="tab-content hidden">
             <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm min-h-[400px]">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
                     <div>
@@ -601,7 +621,7 @@
         </section>
 
         <!-- THEORY & METHODOLOGY TAB -->
-        <section id="tab-methodology" class="hidden">
+        <section id="tab-methodology" class="tab-content hidden">
             <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm max-w-4xl mx-auto space-y-6">
                 <div>
                     <h2 class="text-lg font-bold text-white flex items-center gap-2">
@@ -684,10 +704,6 @@
             ],
             SA: [
                 { id: 'milanDerby', name: 'Milano R. vs Inter R.', homeName: "Milano R.", awayName: "Inter R.", homeAtt: 1.6, homeDef: 1.1, homeForm: ['W', 'L', 'W', 'D', 'L'], awayAtt: 1.9, awayDef: 0.8, awayForm: ['W', 'W', 'D', 'W', 'W'], h2hBias: -15, derby: true, weather: false }
-            ],
-            WC: [
-                { id: 'brazilArg', name: 'Brazil vs Argentina', homeName: "Brazil", awayName: "Argentina", homeAtt: 2.6, homeDef: 0.5, homeForm: ['W', 'W', 'W', 'D', 'W'], awayAtt: 2.4, awayDef: 0.6, awayForm: ['W', 'W', 'W', 'W', 'W'], h2hBias: 5, derby: true, weather: false },
-                { id: 'franceGer', name: 'France vs Germany', homeName: "France", awayName: "Germany", homeAtt: 2.2, homeDef: 0.8, homeForm: ['W', 'D', 'W', 'W', 'L'], awayAtt: 1.8, awayDef: 1.0, awayForm: ['D', 'L', 'W', 'W', 'D'], h2hBias: 0, derby: false, weather: false }
             ]
         };
 
@@ -773,13 +789,28 @@
         function switchTab(tabName) {
             state.currentTab = tabName;
             
-            // Toggle Section Visibility
+            // Get all tab sections
             const tabs = ['predictor', 'saved', 'methodology'];
+            
             tabs.forEach(t => {
                 const sec = document.getElementById(`tab-${t}`);
-                if (sec) {
-                    if (t === tabName) sec.classList.remove('hidden');
-                    else sec.classList.add('hidden');
+                if (!sec) return;
+
+                if (t === tabName) {
+                    // Show target tab
+                    sec.classList.remove('hidden');
+                    // Small delay to trigger transition
+                    requestAnimationFrame(() => {
+                        sec.style.opacity = '1';
+                        sec.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    // Hide other tabs
+                    sec.style.opacity = '0';
+                    sec.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        sec.classList.add('hidden');
+                    }, 300);
                 }
                 
                 // Active button styling desktop
@@ -976,6 +1007,37 @@
             const homeName = document.getElementById('homeName').value.trim() || "Home Team";
             const awayName = document.getElementById('awayName').value.trim() || "Away Team";
 
+            // Update team names and logos in heading
+            document.getElementById('homeNameHeading').innerText = homeName;
+            document.getElementById('awayNameHeading').innerText = awayName;
+            
+            // Map of official team logos
+            const TEAM_LOGOS = {
+                "Real Madrid": "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg",
+                "Man City": "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+                "Arsenal": "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
+                "Chelsea": "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
+                "Liverpool": "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
+                "Bayern München": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Logo_FC_Bayern_M%C3%BCnchen_%282002%E2%80%932017%29.svg",
+                "Paris SG": "https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg",
+                "Barcelona": "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg",
+                "B. Dortmund": "https://upload.wikimedia.org/wikipedia/commons/6/67/Borussia_Dortmund_logo.svg",
+                "Milano R.": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_of_AC_Milan.svg",
+                "Inter R.": "https://upload.wikimedia.org/wikipedia/en/0/05/Internazionale.svg",
+                "Brazil": "https://upload.wikimedia.org/wikipedia/en/0/05/CBF_logo.svg",
+                "Argentina": "https://upload.wikimedia.org/wikipedia/commons/1/1a/AFA_logo.svg",
+                "France": "https://upload.wikimedia.org/wikipedia/en/c/c3/France_Football_Federation.svg",
+                "Germany": "https://upload.wikimedia.org/wikipedia/en/b/b5/DFB_Logo.svg"
+            };
+
+            const getLogo = (name) => TEAM_LOGOS[name] || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(name)}`;
+
+            const homeLogoEl = document.getElementById('homeLogo');
+            const awayLogoEl = document.getElementById('awayLogo');
+            
+            homeLogoEl.src = getLogo(homeName);
+            awayLogoEl.src = getLogo(awayName);
+
             const baseHomeAtt = parseFloat(document.getElementById('homeAtt').value);
             const baseHomeDef = parseFloat(document.getElementById('homeDef').value);
             const baseAwayAtt = parseFloat(document.getElementById('awayAtt').value);
@@ -1043,79 +1105,42 @@
             const MAX_GOALS = 11;
             let probMatrix = Array(MAX_GOALS).fill(0).map(() => Array(MAX_GOALS).fill(0));
             
-            let homeWinProb = 0;
-            let drawProb = 0;
-            let awayWinProb = 0;
+            // --- FIX: Calculating Probabilities and Markets ---
+            let homeWinProb = 0, drawProb = 0, awayWinProb = 0;
+            let over15 = 0, over25 = 0, over35 = 0, btts = 0;
 
-            let over15 = 0;
-            let over25 = 0;
-            let over35 = 0;
-            let btts = 0;
-
-            // Populate calculations table matrix
             for (let h = 0; h < MAX_GOALS; h++) {
+                const pHome = poissonProbability(h, lambdaHome);
                 for (let a = 0; a < MAX_GOALS; a++) {
-                    const pH = poissonProbability(h, lambdaHome);
-                    const pA = poissonProbability(a, lambdaAway);
-                    let probability = pH * pA;
+                    const pAway = poissonProbability(a, lambdaAway);
+                    const prob = pHome * pAway;
+                    probMatrix[h][a] = prob;
 
-                    // Apply Derby Draw weight adjustment
-                    if (h === a && derbyChecked) {
-                        probability *= derbyDrawAdjustment;
-                    }
+                    // Outcome probabilities
+                    if (h > a) homeWinProb += prob;
+                    else if (a > h) awayWinProb += prob;
+                    else drawProb += prob;
 
-                    probMatrix[h][a] = probability;
-
-                    // Cumulative primary calculations
-                    if (h > a) homeWinProb += probability;
-                    else if (h < a) awayWinProb += probability;
-                    else drawProb += probability;
-
-                    // Goal line Over/Unders
-                    const totalGoals = h + a;
-                    if (totalGoals > 1.5) over15 += probability;
-                    if (totalGoals > 2.5) over25 += probability;
-                    if (totalGoals > 3.5) over35 += probability;
-
-                    // Both Teams To Score (Both score 1 or more)
-                    if (h >= 1 && a >= 1) btts += probability;
+                    // Market probabilities
+                    if (h + a > 1.5) over15 += prob;
+                    if (h + a > 2.5) over25 += prob;
+                    if (h + a > 3.5) over35 += prob;
+                    if (h > 0 && a > 0) btts += prob;
                 }
             }
 
-            // Normalize outcome array to exactly sum to 1.0 (100%)
-            const totalNormalizer = homeWinProb + drawProb + awayWinProb;
-            homeWinProb = homeWinProb / totalNormalizer;
-            drawProb = drawProb / totalNormalizer;
-            awayWinProb = awayWinProb / totalNormalizer;
+            // Update UI Probability Bars
+            document.getElementById('homeWinPercLabel').innerText = `${(homeWinProb * 100).toFixed(1)}%`;
+            document.getElementById('homeWinBar').style.width = `${(homeWinProb * 100).toFixed(0)}%`;
+            document.getElementById('drawPercLabel').innerText = `${(drawProb * 100).toFixed(1)}%`;
+            document.getElementById('drawBar').style.width = `${(drawProb * 100).toFixed(0)}%`;
+            document.getElementById('awayWinPercLabel').innerText = `${(awayWinProb * 100).toFixed(1)}%`;
+            document.getElementById('awayWinBar').style.width = `${(awayWinProb * 100).toFixed(0)}%`;
 
-            // 5. Update Headings & Base Stats
-            document.getElementById('homeNameHeading').innerText = homeName;
-            document.getElementById('awayNameHeading').innerText = awayName;
-            document.getElementById('homeLogoInitials').innerText = getTeamInitials(homeName);
-            document.getElementById('awayLogoInitials').innerText = getTeamInitials(awayName);
-            
-            // Total cumulative expected goals of current match
-            const sumXG = lambdaHome + lambdaAway;
-            document.getElementById('sumExpectedGoals').innerText = `${sumXG.toFixed(2)} xG`;
-
-            // 6. Update Primary Probabilities Tri-Bar Display
-            const hWPercent = (homeWinProb * 100).toFixed(1);
-            const dPercent = (drawProb * 100).toFixed(1);
-            const aWPercent = (awayWinProb * 100).toFixed(1);
-
-            document.getElementById('homeWinPercLabel').innerText = `${hWPercent}%`;
-            document.getElementById('drawPercLabel').innerText = `${dPercent}%`;
-            document.getElementById('awayWinPercLabel').innerText = `${aWPercent}%`;
-
-            document.getElementById('homeWinBar').style.width = `${hWPercent}%`;
-            document.getElementById('drawBar').style.width = `${dPercent}%`;
-            document.getElementById('awayWinBar').style.width = `${aWPercent}%`;
-
-            // 7. Update Key Metric Cards & Highlights
+            // Update Match Heading summary
+            document.getElementById('sumExpectedGoals').innerText = `${(lambdaHome + lambdaAway).toFixed(2)} xG`;
             updateHighlights(homeName, awayName, homeWinProb, drawProb, awayWinProb, over25);
-
-            // 8. Find and Update Top Scoreline list
-            updateTopScorelines(homeName, awayName, probMatrix, MAX_GOALS);
+            updateTopScorelines(homeName, awayName, probMatrix, 6); // Show top 6 scorelines
 
             // 9. Update Betting Markets
             document.getElementById('o15Perc').innerText = `${(over15 * 100).toFixed(1)}%`;
@@ -1132,13 +1157,35 @@
 
             // 10. Pitch Visualization update
             document.getElementById('pitchHomeName').innerText = homeName;
-            document.getElementById('pitchAwayName').innerText = awayName;
             document.getElementById('pitchHomeXG').innerText = `${lambdaHome.toFixed(2)} xG`;
+            document.getElementById('pitchHomeBar').style.width = `${Math.min((lambdaHome / 3) * 100, 100)}%`;
+            
+            document.getElementById('pitchAwayName').innerText = awayName;
             document.getElementById('pitchAwayXG').innerText = `${lambdaAway.toFixed(2)} xG`;
+            document.getElementById('pitchAwayBar').style.width = `${Math.min((lambdaAway / 3) * 100, 100)}%`;
 
-            const maxVisXg = Math.max(lambdaHome, lambdaAway, 2.5);
-            document.getElementById('pitchHomeBar').style.width = `${(lambdaHome / maxVisXg) * 100}%`;
-            document.getElementById('pitchAwayBar').style.width = `${(lambdaAway / maxVisXg) * 100}%`;
+            // 11. Update Managerial Summary (NEW)
+            updateManagerialSummary(homeName, awayName, lambdaHome, lambdaAway);
+        }
+
+        /* NEW: Generate dynamic managerial commentary based on xG balance */
+        function updateManagerialSummary(home, away, homeXG, awayXG) {
+            const summaryEl = document.getElementById('summary-text');
+            const diff = homeXG - awayXG;
+            
+            let commentary = "";
+            if (diff > 0.8) {
+                commentary = `The data indicates heavy home dominance. ${home} is expected to control the tempo, while ${away} will likely face sustained pressure throughout the match.`;
+            } else if (diff > 0.2) {
+                commentary = `A competitive fixture expected. ${home} holds a slight statistical advantage, but ${away} shows sufficient attacking baseline to disrupt the defensive lines.`;
+            } else if (Math.abs(diff) <= 0.2) {
+                commentary = `Highly balanced tactical setup. The engine predicts a tight contest where small errors will likely dictate the outcome for both ${home} and ${away}.`;
+            } else if (diff < -0.8) {
+                commentary = `The engine highlights ${away} as the primary aggressor. Their attacking efficiency suggests they will dictate the play, testing the ${home} defense repeatedly.`;
+            } else {
+                commentary = `${away} holds a minor offensive edge. Expect a back-and-forth battle with ${home} looking to capitalize on quick transitions.`;
+            }
+            summaryEl.innerText = commentary;
         }
 
         /* Extract dynamic acronyms for team logo displays */
@@ -1225,7 +1272,7 @@
                 if (index === 0) badgeColor = "bg-brand-500/10 text-brand-400 border border-brand-500/20";
                 
                 const element = `
-                    <div class="flex flex-col gap-1.5 p-2.5 rounded-xl bg-slate-950/40 border border-slate-850 hover:bg-slate-950/80 transition">
+                    <div class="flex flex-col gap-1.5 p-2 rounded-xl bg-slate-950/40 border border-slate-850 hover:border-brand-500/30 hover:bg-slate-950/80 transition-all duration-200 hover:-translate-y-0.5 cursor-default">
                         <div class="flex items-center justify-between text-xs font-bold">
                             <div class="flex items-center gap-2">
                                 <span class="text-[10px] w-5 h-5 rounded bg-slate-850 text-slate-400 flex items-center justify-center font-bold">#${index+1}</span>
